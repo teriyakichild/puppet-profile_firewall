@@ -1,0 +1,5 @@
+fixtures:
+  repositories:
+    firewall: "https://github.com/puppetlabs/puppetlabs-firewall.git"
+  symlinks:
+    profile_firewall: "#{source_dir}"
