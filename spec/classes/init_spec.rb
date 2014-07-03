@@ -25,9 +25,9 @@ describe 'profile_firewall' do
         'proto'   => 'tcp',
         'port'    => '22',
         'action'  => 'accept')
-      should contain_firewall('999 drop all').with(
+      should contain_firewall('999 deny all').with(
         'proto'   => 'all',
-        'action'  => 'drop')
+        'action'  => 'reject')
     }
   end
 end

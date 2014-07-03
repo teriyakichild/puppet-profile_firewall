@@ -21,8 +21,6 @@
 # Alex Schultz <alex.schultz@rackspace.com>
 #
 class profile_firewall::pre {
-  require 'firewall'
-
   Firewall {
     require => undef,
   }

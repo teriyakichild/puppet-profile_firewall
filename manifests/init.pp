@@ -54,8 +54,8 @@ class profile_firewall (
   }
 
   if $ensure == running {
-    require 'profile_firewall::pre'
-    require 'profile_firewall::post'
+    include 'profile_firewall::pre'
+    include 'profile_firewall::post'
 
     resources { 'firewall':
       purge => true

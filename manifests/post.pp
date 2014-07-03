@@ -20,11 +20,11 @@
 # Alex Schultz <alex.schultz@rackspace.com>
 #
 class profile_firewall::post {
-  require 'firewall'
-  # drop everything else
-  firewall { '999 drop all':
+  # reject everything else
+  firewall { '999 deny all':
     proto  => 'all',
-    action => 'drop',
-    before => undef,
+    action => 'reject',
+    reject => 'icmp-host-prohibited',
+    before => undef
   }
 }
