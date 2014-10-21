@@ -71,5 +71,11 @@ class profile_firewall (
       port   => '22',
       action => 'accept',
     }
+
+    firewall { '950 allow zabbix':
+      proto  => 'tcp',
+      port   => '10050',
+      action => 'accept',
+    }
   }
 }

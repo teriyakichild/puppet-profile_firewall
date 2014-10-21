@@ -6,7 +6,7 @@ describe 'profile_firewall' do
     let(:facts) { {
       :kernel                 => 'Linux',
       :operatingsystem        => 'RedHat',
-      :operatingsystemrelease => 6
+      :operatingsystemrelease => '6'
     } }
     it { 
       should contain_class('profile_firewall') 
@@ -24,6 +24,10 @@ describe 'profile_firewall' do
       should contain_firewall('050 allow ssh').with(
         'proto'   => 'tcp',
         'port'    => '22',
+        'action'  => 'accept')
+      should contain_firewall('950 allow zabbix').with(
+        'proto'   => 'tcp',
+        'port'    => '10050',
         'action'  => 'accept')
       should contain_firewall('999 deny all').with(
         'proto'   => 'all',
