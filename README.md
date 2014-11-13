@@ -22,9 +22,9 @@ create your own firewall resources.
 class myfirewall {
   include profile_firewall
   firewall { '100 allow http':
-    'proto'  => 'tcp',
-    'port'   => '80',
-    'action' => 'accept',
+    proto  => 'tcp',
+    port   => '80',
+    action => 'accept',
   }
 }
 ```
