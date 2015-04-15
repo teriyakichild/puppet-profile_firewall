@@ -37,7 +37,8 @@
 # Alex Schultz <alex.schultz@rackspace.com>
 #
 class profile_firewall (
-  $ensure = running
+  $ensure        = running,
+  $ssh_src_range = undef,
 ) {
 
   case $ensure {
@@ -67,9 +68,10 @@ class profile_firewall (
     }
 
     firewall { '050 allow ssh':
-      proto  => 'tcp',
-      port   => '22',
-      action => 'accept',
+      proto     => 'tcp',
+      src_range => $ssh_src_range,
+      port      => '22',
+      action    => 'accept',
     }
 
     firewall { '950 allow zabbix':
