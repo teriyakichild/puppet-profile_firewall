@@ -34,4 +34,15 @@ describe 'profile_firewall' do
         'action'  => 'reject')
     }
   end
+
+  context 'with ssh_src set to 10.0.0.0/8' do
+    let(:params) { { :ssh_src => '10.0.0.0/8' } }
+    it do
+      should contain_firewall('050 allow ssh').with(
+        'proto'  => 'tcp',
+        'port'   => '22',
+        'source' => '10.0.0.0/8',
+        'action' => 'accept',)
+    end
+  end
 end

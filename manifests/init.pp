@@ -37,8 +37,10 @@
 # Alex Schultz <alex.schultz@rackspace.com>
 #
 class profile_firewall (
-  $ensure        = running,
-  $ssh_src_range = undef,
+  $ensure                = running,
+  $ssh_src_range         = undef,
+  $ssh_src               = undef,
+  $ssh_src_desc_modifier = 'anyone',
 ) {
 
   case $ensure {
@@ -67,9 +69,10 @@ class profile_firewall (
       before  => Class['profile_firewall::post'],
     }
 
-    firewall { '050 allow ssh':
+    firewall { "050 allow ssh access from ${ssh_src_desc_modifier}":
       proto     => 'tcp',
       src_range => $ssh_src_range,
+      source    => $ssh_src,
       port      => '22',
       action    => 'accept',
     }
