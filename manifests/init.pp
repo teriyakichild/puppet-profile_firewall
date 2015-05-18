@@ -52,6 +52,12 @@ class profile_firewall (
     }
   }
 
+  if $ssh_src_range != undef {
+    if $ssh_src != undef {
+      fail('Can not set both ssh_src and ssh_src_range.')
+    }
+  }
+
   class { 'firewall':
     ensure => $ensure
   }
