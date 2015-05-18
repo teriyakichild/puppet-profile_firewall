@@ -37,7 +37,10 @@
 # Alex Schultz <alex.schultz@rackspace.com>
 #
 class profile_firewall (
-  $ensure = running
+  $ensure                = running,
+  $ssh_src_range         = undef,
+  $ssh_src               = undef,
+  $ssh_src_desc_modifier = 'anyone',
 ) {
 
   case $ensure {
@@ -46,6 +49,12 @@ class profile_firewall (
     }
     default: {
       fail("${title}: Ensure value '${ensure}' is not supported")
+    }
+  }
+
+  if $ssh_src_range != undef {
+    if $ssh_src != undef {
+      fail('Can not set both ssh_src and ssh_src_range.')
     }
   }
 
@@ -66,10 +75,12 @@ class profile_firewall (
       before  => Class['profile_firewall::post'],
     }
 
-    firewall { '050 allow ssh':
-      proto  => 'tcp',
-      port   => '22',
-      action => 'accept',
+    firewall { "050 allow ssh access from ${ssh_src_desc_modifier}":
+      proto     => 'tcp',
+      src_range => $ssh_src_range,
+      source    => $ssh_src,
+      port      => '22',
+      action    => 'accept',
     }
 
     firewall { '950 allow zabbix':
