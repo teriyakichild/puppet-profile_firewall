@@ -1,0 +1,27 @@
+{
+    "name": "citops-profile_firewall",
+    "version": "0.1.2",
+    "author": "citops/unattributed",
+    "license": "Apache-2.0",
+    "summary": "This module is a profile module for managing firewall rules",
+    "source": "git@github.rackspace.com:cloud-integration-ops/puppet-profile_firewall.git",
+    "project_page": "https://github.rackspace.com/cloud-integration-ops/puppet-profile_firewall",
+    "issues_url": "https://github.rackspace.com/cloud-integration-ops/puppet-profile_firewall/issues",
+    "tags": [
+        "firewall",
+        "iptables",
+        "port",
+        "security",
+        "netsec",
+        "infosec"
+    ],
+    "operatingsystem_support": [
+        {
+            "operatingsystem": "RedHat",
+            "operatingsystemrelease": [
+                "6.0"
+            ]
+        }
+    ],
+    "dependencies": [ ]
+}
