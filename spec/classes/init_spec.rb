@@ -23,11 +23,11 @@ describe 'profile_firewall' do
         'action'  => 'accept')
       should contain_firewall('050 allow ssh access from anyone').with(
         'proto'   => 'tcp',
-        'port'    => '22',
+        'dport'    => '22',
         'action'  => 'accept')
       should contain_firewall('950 allow zabbix').with(
         'proto'   => 'tcp',
-        'port'    => '10050',
+        'dport'    => '10050',
         'action'  => 'accept')
       should contain_firewall('999 deny all').with(
         'proto'   => 'all',
@@ -46,7 +46,7 @@ describe 'profile_firewall' do
       should contain_class('profile_firewall')
       should contain_firewall('050 allow ssh access from some place').with(
         'proto'  => 'tcp',
-        'port'   => '22',
+        'dport'   => '22',
         'source' => '10.0.0.0/8',
         'action' => 'accept')
     }
@@ -63,7 +63,7 @@ describe 'profile_firewall' do
       should contain_class('profile_firewall')
       should contain_firewall('050 allow ssh access from some place').with(
         'proto'     => 'tcp',
-        'port'      => '22',
+        'dport'      => '22',
         'src_range' => '10.0.0.0-10.0.0.1',
         'action'    => 'accept')
     }
