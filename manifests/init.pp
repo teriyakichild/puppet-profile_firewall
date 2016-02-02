@@ -79,13 +79,13 @@ class profile_firewall (
       proto     => 'tcp',
       src_range => $ssh_src_range,
       source    => $ssh_src,
-      port      => '22',
+      dport      => '22',
       action    => 'accept',
     }
 
     firewall { '950 allow zabbix':
       proto  => 'tcp',
-      port   => '10050',
+      dport   => '10050',
       action => 'accept',
     }
   }
