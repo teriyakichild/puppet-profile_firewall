@@ -1,6 +1,6 @@
 {
     "name": "citops-profile_firewall",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "author": "citops/unattributed",
     "license": "Apache-2.0",
     "summary": "This module is a profile module for managing firewall rules",
@@ -19,11 +19,13 @@
         {
             "operatingsystem": "RedHat",
             "operatingsystemrelease": [
-                "6.0"
+                "6.0",
+                "7.0"
             ]
         }
     ],
     "dependencies": [
-        { "name": "puppetlabs-firewall", "version_requirement": ">= 1.7.0"  }
+        { "name": "puppetlabs-firewall", "version_requirement": ">= 1.7.0" },
+        { "name": "crayfishx-firewalld", "version_requirement": ">= 2.1.1" }
     ]
 }

@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'profile_firewall::pre' do
+describe 'profile_firewall::iptables::pre' do
 
 
   context 'with defaults for all parameters' do

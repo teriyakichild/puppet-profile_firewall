@@ -1,7 +1,7 @@
-# == Class: profile_firewall::pre
+# == Class: profile_firewall::iptables::pre
 #
-# This is the profile_firewall pre class. It contains rules to be applied first 
-# to iptables.
+# This is the profile_firewall iptables pre class. 
+# It contains rules to be applied first to iptables.
 #
 #
 # === Parameters
@@ -20,7 +20,7 @@
 #
 # Alex Schultz <alex.schultz@rackspace.com>
 #
-class profile_firewall::pre {
+class profile_firewall::iptables::pre {
   Firewall {
     require => undef,
   }
