@@ -97,7 +97,6 @@ class profile_firewall (
 
       firewalld_zone { 'public':
         ensure           => 'present',
-        #target          => '%%REJECT%%',
         purge_rich_rules => true,
         purge_services   => true,
         purge_ports      => true,
