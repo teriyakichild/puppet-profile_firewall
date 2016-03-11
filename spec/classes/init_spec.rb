@@ -81,6 +81,7 @@ describe 'profile_firewall' do
   
     context 'with defaults for all parameters' do
       it {
+        should contain_class('profile_firewall')
         should contain_firewalld_port('allow zabbix').with(
           'ensure'   => 'present',
           'zone'     => 'public',

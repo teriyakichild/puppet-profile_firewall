@@ -58,7 +58,16 @@ class profile_firewall (
     }
   }
 
-  if $::operatingsystemmajrelease < 7 {
+  if $::operatingsystemmajrelease == undef {
+    $release = $::lsbmajdistrelease
+  } else {
+    $release = $::operatingsystemmajrelease 
+  }
+  if $release == undef {
+    fail('This system doesnt have the facts lsbmajdistrelease or operatingsystemmajrelease')
+  }
+
+  if $release < 7 {
     class { 'firewall':
       ensure => $ensure
     }
@@ -91,10 +100,12 @@ class profile_firewall (
       }
     }
   } else {
-    include 'firewalld'
     
-    if $ensure == running {
+    include firewalld
 
+    if $ensure == running {
+      include 'profile_firewall::firewalld::pre'
+      
       firewalld_zone { 'public':
         ensure           => 'present',
         purge_rich_rules => true,
@@ -102,25 +113,8 @@ class profile_firewall (
         purge_ports      => true,
       }
       
-      $service_rich_rule_defaults = {
-        ensure => present,
-        zone   => 'public',
-        action => 'accept'
-      }
-      
-      if $ssh_src_range != undef {
-        create_resources(firewalld_rich_rule,
-        firewall_parse_range($ssh_src_range,'ssh'), $service_rich_rule_defaults)
-      } elsif $ssh_src != undef {
-        create_resources(firewalld_rich_rule, firewall_parse_range($ssh_src,
-        'ssh'), $service_rich_rule_defaults)
-      } else {
-        # If no ssh_src or ssh_src_range then open ssh for all
-        firewalld_service { 'Allow access to ssh':
-          ensure  => present,
-          zone    => 'public',
-          service => 'ssh',
-        }
+      Firewall {
+        require => Class['profile_firewall::firewalld::pre'],
       }
 
       firewalld_port { 'allow zabbix':
