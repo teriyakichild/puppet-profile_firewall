@@ -58,35 +58,71 @@ class profile_firewall (
     }
   }
 
-  class { 'firewall':
-    ensure => $ensure
+  if $::operatingsystemmajrelease == undef {
+    $release = $::lsbmajdistrelease
+  } else {
+    $release = $::operatingsystemmajrelease 
+  }
+  if $release == undef {
+    fail('This system doesnt have the facts lsbmajdistrelease or operatingsystemmajrelease')
   }
 
-  if $ensure == running {
-    include 'profile_firewall::pre'
-    include 'profile_firewall::post'
-
-    resources { 'firewall':
-      purge => true
+  if $release < 7 {
+    class { 'firewall':
+      ensure => $ensure
     }
 
-    Firewall {
-      require => Class['profile_firewall::pre'],
-      before  => Class['profile_firewall::post'],
-    }
+    if $ensure == running {
+      include 'profile_firewall::iptables::pre'
+      include 'profile_firewall::iptables::post'
 
-    firewall { "050 allow ssh access from ${ssh_src_desc_modifier}":
-      proto     => 'tcp',
-      src_range => $ssh_src_range,
-      source    => $ssh_src,
-      dport      => '22',
-      action    => 'accept',
-    }
+      resources { 'firewall':
+        purge => true
+      }
 
-    firewall { '950 allow zabbix':
-      proto  => 'tcp',
-      dport   => '10050',
-      action => 'accept',
+      Firewall {
+        require => Class['profile_firewall::iptables::pre'],
+        before  => Class['profile_firewall::iptables::post'],
+      }
+
+      firewall { "050 allow ssh access from ${ssh_src_desc_modifier}":
+        proto     => 'tcp',
+        src_range => $ssh_src_range,
+        source    => $ssh_src,
+        dport     => '22',
+        action    => 'accept',
+      }
+
+      firewall { '950 allow zabbix':
+        proto  => 'tcp',
+        dport  => '10050',
+        action => 'accept',
+      }
+    }
+  } else {
+    
+    include firewalld
+
+    if $ensure == running {
+      include 'profile_firewall::firewalld::pre'
+      
+      firewalld_zone { 'public':
+        ensure           => 'present',
+        purge_rich_rules => true,
+        purge_services   => true,
+        purge_ports      => true,
+      }
+      
+      Firewall {
+        require => Class['profile_firewall::firewalld::pre'],
+      }
+
+      firewalld_port { 'allow zabbix':
+        ensure   => present,
+        zone     => 'public',
+        protocol => 'tcp',
+        port     => '10050',
+      }
     }
   }
 }

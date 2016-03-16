@@ -1,5 +1,7 @@
 fixtures:
-  repositories:
-    firewall: "https://github.com/puppetlabs/puppetlabs-firewall.git"
+  forge_modules:
+    stdlib:    "puppetlabs/stdlib"
+    firewall:  "puppetlabs/firewall"
+    firewalld: "crayfishx/firewalld"
   symlinks:
     profile_firewall: "#{source_dir}"

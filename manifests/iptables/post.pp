@@ -1,7 +1,7 @@
-# == Class: profile_firewall::post
+# == Class: profile_firewall::iptables::post
 #
-# This is the profile_firewall post class. It contains rules to be applied last
-# to iptables.
+# This is the profile_firewall iptables post class. 
+# It contains rules to be applied last to iptables.
 #
 # === Parameters
 #
@@ -19,7 +19,7 @@
 #
 # Alex Schultz <alex.schultz@rackspace.com>
 #
-class profile_firewall::post {
+class profile_firewall::iptables::post {
   # reject everything else
   firewall { '999 deny all':
     proto  => 'all',

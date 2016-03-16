@@ -8,3 +8,4 @@ coverage/
 .idea/
 .ruby-version
 *.iml
+*.swp

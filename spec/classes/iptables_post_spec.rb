@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'profile_firewall::post' do
+describe 'profile_firewall::iptables::post' do
 
 
   context 'with defaults for all parameters' do
