@@ -113,7 +113,7 @@ class profile_firewall (
         purge_ports      => true,
       }
       
-      Firewall {
+      Firewalld {
         require => Class['profile_firewall::firewalld::pre'],
       }
 

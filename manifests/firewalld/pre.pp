@@ -19,7 +19,7 @@
 #
 class profile_firewall::firewalld::pre {
 
-  Firewall {
+  Firewalld {
     require => undef,
   }
 
