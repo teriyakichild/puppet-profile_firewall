@@ -29,11 +29,11 @@ class profile_firewall::firewalld::pre {
     zone   => 'public',
     action => 'accept',
   }
-  
+
   if $profile_firewall::ssh_src_range != undef {
     create_resources(
       firewalld_rich_rule,
-      firewall_parse_range($profile_firewall::ssh_src_range,'ssh'), 
+      firewall_parse_range($profile_firewall::ssh_src_range,'ssh'),
       $service_rich_rule_defaults
     )
   } elsif $profile_firewall::ssh_src != undef {
