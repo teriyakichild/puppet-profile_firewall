@@ -58,7 +58,7 @@ class profile_firewall (
     fail('This system doesnt have the facts lsbmajdistrelease or operatingsystemmajrelease')
   }
 
-  if ($release + 0) < 7 {
+  if (versioncmp($release, '7') < 0) {
     class { 'firewall':
       ensure => $ensure
     }
