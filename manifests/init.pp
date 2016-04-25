@@ -64,8 +64,8 @@ class profile_firewall (
     }
 
     if $ensure == running {
-      include 'profile_firewall::iptables::pre'
-      include 'profile_firewall::iptables::post'
+      include '::profile_firewall::iptables::pre'
+      include '::profile_firewall::iptables::post'
 
       resources { 'firewall':
         purge => true
@@ -91,19 +91,19 @@ class profile_firewall (
       }
     }
   } else {
-    
-    include firewalld
+
+    include ::firewalld
 
     if $ensure == running {
-      include 'profile_firewall::firewalld::pre'
-      
+      include '::profile_firewall::firewalld::pre'
+
       firewalld_zone { 'public':
         ensure           => 'present',
         purge_rich_rules => true,
         purge_services   => true,
         purge_ports      => true,
       }
-      
+
       Firewalld {
         require => Class['profile_firewall::firewalld::pre'],
       }
