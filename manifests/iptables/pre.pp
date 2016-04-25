@@ -28,16 +28,16 @@ class profile_firewall::iptables::pre {
   # default rules
   firewall { '000 accept all icmp':
     proto  => 'icmp',
-    action => 'accept'
+    action => 'accept',
   }->
   firewall { '001 accept all on lo':
     proto   => 'all',
     iniface => 'lo',
-    action  => 'accept'
+    action  => 'accept',
   }->
   firewall { '002 accept related and established':
     proto   => 'all',
     ctstate => ['RELATED', 'ESTABLISHED'],
-    action  => 'accept'
+    action  => 'accept',
   }
 }

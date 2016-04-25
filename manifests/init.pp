@@ -68,7 +68,7 @@ class profile_firewall (
       include '::profile_firewall::iptables::post'
 
       resources { 'firewall':
-        purge => true
+        purge => true,
       }
 
       Firewall {

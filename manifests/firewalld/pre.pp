@@ -27,7 +27,7 @@ class profile_firewall::firewalld::pre {
   $service_rich_rule_defaults = {
     ensure => present,
     zone   => 'public',
-    action => 'accept'
+    action => 'accept',
   }
   
   if $profile_firewall::ssh_src_range != undef {
