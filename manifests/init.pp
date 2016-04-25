@@ -43,25 +43,16 @@ class profile_firewall (
   $ssh_src_desc_modifier = 'anyone',
 ) {
 
-  case $ensure {
-    /^(running|stopped)$/: {
-      # valid ensure value
-    }
-    default: {
-      fail("${title}: Ensure value '${ensure}' is not supported")
-    }
-  }
+  validate_re($ensure, ['^running|stopped',])
 
-  if $ssh_src_range != undef {
-    if $ssh_src != undef {
-      fail('Can not set both ssh_src and ssh_src_range.')
-    }
+  if ($ssh_src_range) and ($ssh_src) {
+    fail('Can not set both ssh_src and ssh_src_range.')
   }
 
   if $::operatingsystemmajrelease == undef {
     $release = $::lsbmajdistrelease
   } else {
-    $release = $::operatingsystemmajrelease 
+    $release = $::operatingsystemmajrelease
   }
   if $release == undef {
     fail('This system doesnt have the facts lsbmajdistrelease or operatingsystemmajrelease')

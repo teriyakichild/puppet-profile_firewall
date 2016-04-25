@@ -190,5 +190,30 @@ describe 'profile_firewall' do
         should raise_error(Puppet::Error, /Unexpected format for src or src_range/)
       }
     end
+
+    context 'with an invalid ensure parameter' do
+      let(:params) do
+      {
+        :ensure => 'fail_me',
+      }
+      end
+      it {
+        should raise_error(Puppet::Error, /"fail_me" does not match \["\^running\|stopped\"\]/)
+      }
+    end
+
+    context 'with both ssh_src and ssh_src_range set' do
+      let(:params) do
+      {
+        :ssh_src_range         => '10.0.0.0-10.0.0.1',
+        :ssh_src               => '10.0.0.0/8',
+      }
+      end
+      it {
+        should raise_error(Puppet::Error, /Can not set both ssh_src and ssh_src_range/)
+      }
+    end
+
+
   end
 end
