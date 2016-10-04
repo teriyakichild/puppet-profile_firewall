@@ -4,13 +4,22 @@ describe 'profile_firewall' do
     let(:facts) do {
       :kernel                    => 'Linux',
       :operatingsystem           => 'RedHat',
-      :operatingsystemrelease    => '6', 
-      :operatingsystemmajrelease => '6', 
+      :operatingsystemrelease    => '6',
+      :operatingsystemmajrelease => '6',
     } end
-  
+
     context 'with defaults for all parameters' do
-      it { 
-        should contain_class('profile_firewall') 
+
+      context 'includes firewall instead of firewalld' do
+        it {
+          should contain_class('firewall')
+        }
+        it {
+          should_not contain_class('firewalld')
+        }
+      end
+
+      it {
         should contain_firewall('000 accept all icmp').with(
           'proto'  => 'icmp',
           'action' => 'accept')
@@ -35,7 +44,7 @@ describe 'profile_firewall' do
           'action'  => 'reject')
       }
     end
-  
+
     context 'with ssh_src set to 10.0.0.0/8' do
       let(:params) do
       {
@@ -52,7 +61,7 @@ describe 'profile_firewall' do
           'action' => 'accept')
       }
     end
-  
+
     context 'with ssh_src_range set to 10.0.0.0-10.0.0.1' do
       let(:params) do
       {
@@ -75,11 +84,20 @@ describe 'profile_firewall' do
     let(:facts) do {
       :kernel                    => 'Linux',
       :operatingsystem           => 'RedHat',
-      :operatingsystemrelease    => '7', 
-      :operatingsystemmajrelease => '7', 
+      :operatingsystemrelease    => '7',
+      :operatingsystemmajrelease => '7',
     } end
-  
+
     context 'with defaults for all parameters' do
+      context 'includes firewalld instead of firewall' do
+        it {
+          should contain_class('firewalld')
+        }
+        it {
+          should_not contain_class('firewall')
+        }
+      end
+
       it {
         should contain_class('profile_firewall')
         should contain_firewalld_port('allow zabbix').with(
@@ -113,7 +131,7 @@ describe 'profile_firewall' do
         )
       }
     end
-  
+
     context 'with ssh_src_range set to 10.0.0.0-10.0.0.2' do
       let(:params) do
       {
@@ -172,5 +190,30 @@ describe 'profile_firewall' do
         should raise_error(Puppet::Error, /Unexpected format for src or src_range/)
       }
     end
+
+    context 'with an invalid ensure parameter' do
+      let(:params) do
+      {
+        :ensure => 'fail_me',
+      }
+      end
+      it {
+        should raise_error(Puppet::Error, /"fail_me" does not match \["\^running\|stopped\"\]/)
+      }
+    end
+
+    context 'with both ssh_src and ssh_src_range set' do
+      let(:params) do
+      {
+        :ssh_src_range         => '10.0.0.0-10.0.0.1',
+        :ssh_src               => '10.0.0.0/8',
+      }
+      end
+      it {
+        should raise_error(Puppet::Error, /Can not set both ssh_src and ssh_src_range/)
+      }
+    end
+
+
   end
 end

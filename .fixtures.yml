@@ -1,7 +1,13 @@
 fixtures:
-  forge_modules:
-    stdlib:    "puppetlabs/stdlib"
-    firewall:  "puppetlabs/firewall"
-    firewalld: "crayfishx/firewalld"
+  repositories:
+    "firewall":
+      "repo": "https://github.com/puppetlabs/puppetlabs-firewall"
+      "tag": "1.7.0"
+    "firewalld":
+      "repo": "https://github.com/crayfishx/puppet-firewalld"
+      "tag": "2.1.1"
+    "stdlib":
+      "repo": "https://github.com/puppetlabs/puppetlabs-stdlib"
+      "ref": "v2.2.1"
   symlinks:
     profile_firewall: "#{source_dir}"
